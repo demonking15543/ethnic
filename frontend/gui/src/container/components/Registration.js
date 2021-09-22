@@ -1,61 +1,117 @@
 import React, { Component } from 'react'
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
+
 
 export default class Registration extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            user:{
-                email:"",
-                username:"",
-                password:"",
-                name:{
-                    firstname:"",
-                    lastname:""
-                },
-                address:{
-                    city:"",
-                    street:"",
-                    number:"",
-                    zipcode:"",
-                    geoloaction:{
-                        lat: "",
-                        long:""
-                    }
-                },
-                phone: ""
-            },
-            formsubmitted:false,        
-        }
-    }
-    
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       firstname: "",
+       lastname: "",
+       email: "",
+       password: "",
+       confirmPassword:""
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+   
+  }
+  handleChange(e){
+    this.setState({[e.target.name]:e.target.value})
+  }
+  handleSubmit(e){
+    e.preventDefault();
+     if (this.state.password === this.state.confirmPassword){
+         
+       this.setState({
+        firstname:"",
+        lastname: "",
+        email: "",
+        password:"",
+        confirmPassword:""     
+       });
+        
+        console.log(this.state)
+        console.log('Form has submitted');
+
+     }
+     else{
+       alert("Password and Confirm Password must be same");
+     }
+          
+  }
+  
+
 
 
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-4">
-                    <input type="email" value={email} name="email" onChange={(e) => { this.inputChange(e)} } className="form-control" placeholder="User email" />
-                        { submitted && this.state.errors.user.email.length > 0 &&  <span className='error'>{this.state.errors.user.email}</span>}
+            <Form onSubmit={this.handleSubmit}>
+              <div className="p-5">
+                <Form.Group className="mb-3" controlId="formBasicFirstName">
+                  <Form.Label>FirstName</Form.Label>
+                  <Form.Control type="text"
+                  name="firstname"
+                  value={this.state.firstname}
+                  onChange={this.handleChange}
+                  placeholder="Enter First Name" />          
+                </Form.Group>
+        
+                <Form.Group className="mb-3" controlId="formBasicLastName">
+                  <Form.Label>LastName</Form.Label>
+                  <Form.Control type="text" 
+                  name="lastname"
+                  value={this.state.lastname}
+                  onChange={this.handleChange}
+                  
+                  placeholder="Enter Last Name" />          
+                </Form.Group>
+            
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email"
+                  name="email" 
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  
+                   placeholder="Enter email" />
+                  <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                  </Form.Text>
+                </Form.Group>
+            
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" 
+                    name="password" 
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  
+                  placeholder="Password" />
+                </Form.Group>
 
-                    </div>
-                    <div className="col-4">
-                    <input type="text" value={username} name="username" onChange={(e) => { this.inputChange(e)} } className="form-control" placeholder="Username" />
-                        { submitted && this.state.errors.user.username.length > 0 &&  <span className='error'>{this.state.errors.user.username}</span>}
 
-                    </div>
-                    <div className="col-4">
-                    <input type="password" value={password} name="password" onChange={(e) => { this.inputChange(e)} } className="form-control" placeholder="Password" />
-                        { submitted && this.state.errors.user.password.length > 0 &&  <span className='error'>{this.state.errors.user.password}</span>}
+                <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control type="password"
+                  name="confirmPassword" 
+                  value={this.state.confirmPassword}
+                  onChange={this.handleChange}
+                  
+                  placeholder="Password" />
+                </Form.Group>
 
-                    </div>
-
+                <div className="text-center">
+                   <Button variant="primary" type="submit">
+                     Submit
+                   </Button>
                 </div>
+              </div>
 
-
-                
-            </div>
+    </Form>
         )
     }
 }

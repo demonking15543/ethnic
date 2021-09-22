@@ -3,6 +3,7 @@ import Header from './container/components/Header';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'; import "react-router-dom";
 import ProductList from './container/components/ProductList';
 import ProductDetail from './container/components/ProductDetail';
+import Registration from './container/components/Registration';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={ProductList} />
         <Route path="/product/:productId" exact component={ProductDetail} />
+        <Route path="/signup" exact component={Registration} />
         <Route>404 Not Found!</Route>
       </Switch>
       </Router>

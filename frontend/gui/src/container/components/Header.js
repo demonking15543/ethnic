@@ -2,7 +2,8 @@ import React from 'react'
 import  Navbar  from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Link  } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -25,9 +26,8 @@ const Header = () => {
     </Nav>
     <Nav>
       <Nav.Link href="#deets" className="Text-White">Discounts</Nav.Link>
-      <Nav.Link eventKey={2} href="#memes" className="Text-White">
-         Log In
-      </Nav.Link>
+      <Link to="/signup" data-rr-ui-event-key="2" className="Text-White nav-link">Signup</Link>
+
     </Nav>
   </Navbar.Collapse>
   </Container>
