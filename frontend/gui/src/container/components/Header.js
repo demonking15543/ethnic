@@ -27,6 +27,8 @@ const Header = () => {
     <Nav>
       <Nav.Link href="#deets" className="Text-White">Discounts</Nav.Link>
       <Link to="/signup" data-rr-ui-event-key="2" className="Text-White nav-link">Signup</Link>
+      <Link to="/login" data-rr-ui-event-key="3" className="Text-White nav-link">Sign In</Link>
+
 
     </Nav>
   </Navbar.Collapse>
