@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
      AbstractBaseUser,
      PermissionsMixin
 )
+
 from accounts.managers import UserManager
 
 class AbstractTimeZone(models.Model):
