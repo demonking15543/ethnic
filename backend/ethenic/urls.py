@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
-from accounts.views import MyObtainTokenPairView
+from accounts.views import MyObtainTokenPairView, csrf
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/token/',MyObtainTokenPairView.as_view(), name ='token_obtain_pair'),
-    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
-
+    path('api/v1/token/',MyObtainTokenPairView.as_view(), name ='token_obtain_pair'),
+    path('api/v1/token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
     path('api/v1/accounts/', include('accounts.urls')),
+
+    path('csrf/', csrf),
+
 ]

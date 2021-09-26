@@ -1,27 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-
+import api from '../api/loacalConfig';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-
+import CSRFToken from './CSRFToken';
 
 const Login = () => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [terms, setTerms] = useState(false);
 
 
+
+
+    const FetchToken = async (data) =>{
+        const response = await api.post("token/", data).catch((err) => {
+            console.log("Error", err.response)
+        });
+
+
+
+    }
+    const Hello = async () => {
+        const response = await api.get("accounts/hello/").catch((err) => {
+            console.log("Error", err.response.data)
+        });
+        console.log(response.data);
+ 
+
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
-            "username": { username },
-            "password": { password },
-            "terms": { terms }
+            email: email,
+            password: password,
+            terms: terms
 
         };
-        console.log(data)
+        FetchToken(data);
+        Hello();
+        
+        
+
+
 
 
 
@@ -36,13 +59,14 @@ const Login = () => {
                     <Card.Header className="text-center">Sign In</Card.Header>
                     <Card.Body>
                         <Form onSubmit={handleSubmit}>
+                            <CSRFToken />
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email"
                                     placeholder="Enter email"
-                                    name="username"
-                                    value={username}
-                                    onChange={e => setUsername(e.target.value)}
+                                    name="email"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
                                     required />
                                 <Form.Text className="text-muted">
                                     We'll never share your email with anyone else.

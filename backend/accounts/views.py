@@ -10,6 +10,17 @@ from rest_framework.permissions import AllowAny
 
 # Create your views here.
 
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+
+def csrf(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+
+
+
+
+
+
 @api_view(['GET', 'POST'])
 def user_register(request):
     if request.method == 'POST':
