@@ -20,8 +20,8 @@ from accounts.views import MyObtainTokenPairView, csrf
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/token/',MyObtainTokenPairView.as_view(), name ='token_obtain_pair'),
-    path('api/v1/token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
+    path('api/v1/accounts/token/',MyObtainTokenPairView.as_view(), name ='token_obtain_pair'),
+    path('api/v1/accounts/token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
     path('api/v1/accounts/', include('accounts.urls')),
 
     path('csrf/', csrf),
