@@ -5,6 +5,7 @@ import ProductList from './container/components/ProductList';
 import ProductDetail from './container/components/ProductDetail';
 import Registration from './container/components/Registration';
 import Login from './container/components/Login';
+import SignupPage from './container/SignupPage';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={ProductList} />
         <Route path="/product/:productId" exact component={ProductDetail} />
-        <Route path="/signup" exact component={Registration} />
+        <Route path="/signup" exact component={SignupPage} />
         <Route path="/login" exact component={Login} />
 
         <Route>404 Not Found!</Route>
