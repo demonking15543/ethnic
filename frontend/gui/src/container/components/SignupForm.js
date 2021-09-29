@@ -13,7 +13,9 @@ export default class SignupForm extends Component {
        email: "",
        password: "",
        confirmPassword:"",
-       terms: false
+       terms: false,
+       errors: {},
+       isLoading: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,16 +29,28 @@ export default class SignupForm extends Component {
     this.setState({terms: !this.state.terms})
   }
   handleSubmit(e){
+    this.setState({errors: {}, isLoading:true})
     e.preventDefault();
      if (this.state.password === this.state.confirmPassword){
          
-       
-        const data = this.state
-               this.props.userSignupRequest(data);
+              
+                const data = this.state
+               this.props.userSignupRequest(data)
+               .then({})
+               .catch((err)=>{
+                 this.setState({errors:err.response.data, isLoading:false})
+               })
+
+
+                 
+                
+     
 
 
      }
      else{
+      this.setState({isLoading:false})
+
        alert("Password and Confirm Password must be same");
      }
           
@@ -46,6 +60,9 @@ export default class SignupForm extends Component {
 
 
     render() {
+       
+      const { errors } = this.state;
+      
         return (
             <Form onSubmit={this.handleSubmit}>
               <div className="p-1">
@@ -76,9 +93,8 @@ export default class SignupForm extends Component {
                   onChange={this.handleChange}
                   
                    placeholder="Enter email" />
-                  <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                  </Form.Text>
+                  {errors.email && <span className="text-danger">{errors.email}</span>}
+
                 </Form.Group>
             
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -89,6 +105,8 @@ export default class SignupForm extends Component {
                   onChange={this.handleChange}
                   
                   placeholder="Password" />
+                  {errors.email && <span className="text-danger">{errors.password}</span>}
+
                 </Form.Group>
 
 
@@ -111,7 +129,8 @@ export default class SignupForm extends Component {
 
 
                 <div className="text-center">
-                   <Button variant="primary" type="submit">
+                   <Button variant="primary" type="submit" disabled={this.state.isLogin}>
+                     {this.state.isLoading && <div className="spinner-border" role="status"></div>}
                      Submit
                    </Button>
                 </div>
