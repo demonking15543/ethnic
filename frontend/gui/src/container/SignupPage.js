@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import  Container from 'react-bootstrap/Container';
-import PropTypes from "prop-types";
-import { connect } from 'react-redux';
 
 import  Row from 'react-bootstrap/Row';
 import  Col from 'react-bootstrap/Col';
@@ -12,7 +10,6 @@ class SignupPage extends Component {
             <Container>
                 <Row>
                     <Col md={4} className="offset-md-4">
-                        <h4>Signup Form</h4>
                         <SignupForm />
                     </Col>
     

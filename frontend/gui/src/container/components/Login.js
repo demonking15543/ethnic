@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { setLoggedIn, setLogInError } from '../redux/actions/UserActions';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -10,51 +14,44 @@ import CSRFToken from './CSRFToken';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [terms, setTerms] = useState(false);
+    const [errors, setErrors] = useState([]);
 
 
+
+    const dispatch = useDispatch()
+    const history = useHistory()
 
 
     const FetchToken = async (data) =>{
-        const response = await api.post("token/", data).catch((err) => {
-            console.log("Error", err.response)
-        });
-
-
-
-    }
-    const Hello = async () => {
-        const response = await api.get("accounts/hello/").catch((err) => {
-            console.log("Error", err.response.data)
-        });
-        console.log(response.data);
- 
-
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = {
-            email: email,
-            password: password,
-            terms: terms
-
-        };
-        FetchToken(data);
-        Hello();
+        const response = await api.post("accounts/token/", data)
+        return response;
         
         
-
-
-
 
 
     };
-
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            email,
+            password
+        }
+    
+        FetchToken(data)
+        .then(res => {
+            dispatch(setLoggedIn(res.data))
+            history.push("/")
+        })
+        .catch((err) => {
+            dispatch(setLogInError(err.response.data))
+            setErrors(err.response.data)
+            
+        })    
+    };
     return (
         <Row>
-            <Col sm={12} md={4}>
-            </Col>
-            <Col sm={12} md={4}>
+            <Col className="offset-md-4" sm={12} md={4} >
                 <Card className="my-4">
                     <Card.Header className="text-center">Sign In</Card.Header>
                     <Card.Body>
@@ -83,13 +80,8 @@ const Login = () => {
                                     onChange={e => setPassword(e.target.value)}
                                     required />
                             </Form.Group>
-                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox"
-                                    name="terms"
-                                    checked={terms}
-                                    onChange={e => setTerms(e.target.checked)}
-                                    label="T&C" />
-                            </Form.Group>
+                            {errors && <span className="text-danger">{errors.detail}</span>}
+
                             <div className="text-center">
                             <Button variant="primary" type="submit">
                                 Submit
@@ -102,9 +94,7 @@ const Login = () => {
                 </Card>
 
             </Col>
-            <Col sm={12} md={4}>
-            </Col>
-
+           
 
 
         </Row>

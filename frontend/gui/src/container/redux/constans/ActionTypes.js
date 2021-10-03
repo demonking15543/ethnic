@@ -4,6 +4,14 @@ export const ActionTypes = {
     REMOVE_SELECTED_PRODUCTS: "REMOVE_SELECTED_PRODUCTS",
 
 
+    SIGNUP_SUCCESS : "SIGNUP_SUCCESS",
+    LOGGEDIN : "LOGGEDIN",
+    LOGIN_ERROR : "LOGIN_ERROR",
+
+
+
+
+
     
     
 }
