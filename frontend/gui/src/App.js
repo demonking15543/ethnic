@@ -1,13 +1,18 @@
 import './App.css';
 import Header from './container/components/Header';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'; import "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProductList from './container/components/ProductList';
 import ProductDetail from './container/components/ProductDetail';
-import Registration from './container/components/Registration';
 import Login from './container/components/Login';
 import SignupPage from './container/SignupPage';
-
+import React, { useState } from 'react';
 function App() {
+   
+ 
+
+  
+   
+   
   return (
     <div>
       <Router>        

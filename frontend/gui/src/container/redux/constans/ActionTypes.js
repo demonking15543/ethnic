@@ -8,6 +8,8 @@ export const ActionTypes = {
     LOGGEDIN : "LOGGEDIN",
     LOGIN_ERROR : "LOGIN_ERROR",
 
+    LOGOUT : 'LOGOUT'
+
 
 
 

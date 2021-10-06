@@ -34,5 +34,28 @@ export const AuthReducer = (state={}, {type, payload}) => {
             
     }
 
+
+    
+
+}
+
+
+
+
+export const LogoutReducer = (state={}, {type, payload}) => {
+    switch (type) {
+        case ActionTypes.LOGOUT:
+            return {...state, ...payload}
+
+            
+       
+        default:
+            return state
+            
+    }
+
+
+    
+
 }
 

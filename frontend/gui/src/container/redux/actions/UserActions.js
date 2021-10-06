@@ -33,3 +33,10 @@ export const setLogInError = (user) =>{
         payload: user
     }
 }
+
+export const setLogout = (isLogin) =>{
+    return {
+        type : ActionTypes.LOGOUT,
+        payload: isLogin
+    }
+}

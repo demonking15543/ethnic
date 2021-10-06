@@ -1,11 +1,33 @@
-import React from 'react'
+import React, { useState }  from 'react'
 import  Navbar  from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link  } from 'react-router-dom'
+import { Link, useHistory  } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { setLogout } from '../redux/actions/UserActions';
+
 
 const Header = () => {
+  const [isLogin, setisLogin] = useState(()=>{
+    if(localStorage.getItem("token")){
+      return true
+    }
+  })
+  const history = useHistory()
+
+  const Logout = () => {
+
+    localStorage.clear();
+    setisLogin(false);
+    history.push("/login")
+  
+  
+    }   
+ 
+   
+
+    
     return (
         <div>
     <Navbar collapseOnSelect expand="lg"  style={{background:"#4169e1"}}>
@@ -26,8 +48,18 @@ const Header = () => {
     </Nav>
     <Nav>
       <Nav.Link href="#deets" className="Text-White">Discounts</Nav.Link>
+      {
+       isLogin ?
+      <>
+      <Link to="#" onClick={Logout} data-rr-ui-event-key="2" className="Text-White nav-link">Logout</Link>
+      </>
+      :
+      <>
       <Link to="/signup" data-rr-ui-event-key="2" className="Text-White nav-link">Signup</Link>
-      <Link to="/login" data-rr-ui-event-key="3" className="Text-White nav-link">Sign In</Link>
+      
+       <Link to="/login" data-rr-ui-event-key="3"  className="Text-White nav-link">Sign In</Link>
+      </> 
+      }
 
 
     </Nav>
