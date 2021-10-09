@@ -19,7 +19,6 @@ const Login = () => {
 
 
     const dispatch = useDispatch()
-    const history = useHistory()
 
 
     const FetchToken = async (data) =>{
@@ -41,7 +40,10 @@ const Login = () => {
         FetchToken(data)
         .then(res => {
             dispatch(setLoggedIn(res.data))
-            history.push("/")
+            window.location.href ="/"
+
+
+            
         })
         .catch((err) => {
             dispatch(setLogInError(err.response.data))

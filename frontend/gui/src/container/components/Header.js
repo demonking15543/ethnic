@@ -8,24 +8,36 @@ import { useDispatch } from 'react-redux';
 import { setLogout } from '../redux/actions/UserActions';
 
 
-const Header = () => {
+const Header = (props) => {
   const [isLogin, setisLogin] = useState(()=>{
     if(localStorage.getItem("token")){
       return true
     }
   })
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const Logout = () => {
 
     localStorage.clear();
     setisLogin(false);
+    dispatch(setLogout(true))
     history.push("/login")
   
   
     }   
- 
-   
+  
+    const CategoryList = props.categories.map((category)=>{
+
+
+      return (
+          <Link to={`/${category}`} data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0">   
+
+          {category}
+          </Link> 
+
+      )
+    })
 
     
     return (
@@ -39,11 +51,8 @@ const Header = () => {
       <Nav.Link href="#features">Brands</Nav.Link>
       <Nav.Link href="#pricing">Special Deals</Nav.Link>
       <NavDropdown title="Categories" id="collasible-nav-dropdown">
-        <NavDropdown.Item href="#action/3.1" >New</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.2">Most Buy</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">Special Collection</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="#action/3.4">Offer of the day</NavDropdown.Item>
+        {CategoryList}
+        
       </NavDropdown>
     </Nav>
     <Nav>
