@@ -4,23 +4,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, useHistory  } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from '../redux/actions/UserActions';
 
 
+
 const Header = (props) => {
-  const [isLogin, setisLogin] = useState(()=>{
-    if(localStorage.getItem("token")){
-      return true
-    }
-  })
+
+
   const history = useHistory()
   const dispatch = useDispatch()
 
   const Logout = () => {
 
     localStorage.clear();
-    setisLogin(false);
+    props.setisLogin(false);
     dispatch(setLogout(true))
     history.push("/login")
   
@@ -31,7 +29,7 @@ const Header = (props) => {
 
 
       return (
-          <Link to={`/${category}`} data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0">   
+          <Link to={`/${category}`} data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0" key={category}>   
 
           {category}
           </Link> 
@@ -58,7 +56,7 @@ const Header = (props) => {
     <Nav>
       <Nav.Link href="#deets" className="Text-White">Discounts</Nav.Link>
       {
-       isLogin ?
+       props.isLogin ?
       <>
       <Link to="#" onClick={Logout} data-rr-ui-event-key="2" className="Text-White nav-link">Logout</Link>
       </>

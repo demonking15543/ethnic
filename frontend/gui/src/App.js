@@ -9,8 +9,15 @@ import React, { useEffect, useState } from 'react';
 import api from '../src/container/api/config'
 import CategoryProductList from './container/components/CategoryProductList';
 function App() {
+  const [isLogin, setisLogin] = useState(()=>{
+    if(localStorage.getItem("token")){
+      return true
+    }
+  })
+
    
  const [categories, setCategories] = useState([])
+
   const category = async () => {
     const response = await api.get('/products/categories').catch(err => {
       console.log(err.response.data)
@@ -29,13 +36,13 @@ useEffect(() => {
   return (
     <div>
       <Router>        
-      <Header categories={categories} />
+      <Header categories={categories} isLogin={isLogin} setisLogin={setisLogin} />
       <Switch>
         <Route path="/" exact component={ProductList} />
         <Route path="/product/:productId" exact component={ProductDetail} />
         <Route path="/products/category/:category" exact component={CategoryProductList} />
         <Route path="/signup" exact component={SignupPage} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/login" exact component={Login} setisLogin={setisLogin} />
 
 
         <Route>404 Not Found!</Route>

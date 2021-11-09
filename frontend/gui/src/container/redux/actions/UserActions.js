@@ -19,7 +19,6 @@ export const setUserError = (user) =>{
 
 
 export const setLoggedIn = (user) =>{
-    console.log(user.access)
     localStorage.setItem('token', 'Bearer '+ user.access)
     return {
         type : ActionTypes.LOGGEDIN,

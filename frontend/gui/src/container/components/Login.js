@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { setLoggedIn, setLogInError } from '../redux/actions/UserActions';
-
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -11,12 +10,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import CSRFToken from './CSRFToken';
 
-const Login = () => {
+const Login = ({ setisLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
 
+    const history = useHistory()
 
     const dispatch = useDispatch()
 
@@ -29,6 +29,7 @@ const Login = () => {
 
 
     };
+
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,8 +40,10 @@ const Login = () => {
     
         FetchToken(data)
         .then(res => {
-            dispatch(setLoggedIn(res.data))
-            window.location.href ="/"
+            dispatch(setLoggedIn(res.data));
+            history.push('/');
+
+            // window.location.href ="/"
 
 
             
@@ -49,7 +52,9 @@ const Login = () => {
             dispatch(setLogInError(err.response.data))
             setErrors(err.response.data)
             
-        })    
+        })  
+        
+  
     };
     return (
         <Row>
