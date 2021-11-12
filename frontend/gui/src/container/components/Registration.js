@@ -103,6 +103,15 @@ export default class Registration extends Component {
                   
                   placeholder="Password" />
                 </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                  <Form.Check type="checkbox"
+                      name="terms"
+                      checked={}
+                      onChange={this.handleChange}
+                      label="T&C" />
+                  </Form.Group>
+
+
 
                 <div className="text-center">
                    <Button variant="primary" type="submit">

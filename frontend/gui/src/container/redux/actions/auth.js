@@ -1,8 +1,8 @@
 import { ActionTypes } from "../constans/ActionTypes";
 import authService from "../../services/auth.service";
 
-export const register = (firstname, lastname, email, password) => (dispatch) =>{
-    return authService.register(firstname, lastname, email, password).then(
+export const register = (firstname, lastname, email, password,terms) => (dispatch) =>{
+    return authService.register(firstname, lastname, email, password, terms).then(
         (response) => {
 
             dispatch({
@@ -71,7 +71,7 @@ export const login = (email, password) => (dispatch) =>{
 
 };
 
-export default logout = () => (dispatch) => {
+export  const logout = () => (dispatch) => {
     authService.logout();
     dispatch({
         type:ActionTypes.LOGOUT

@@ -24,6 +24,7 @@ def csrf(request):
 @api_view(['GET', 'POST'])
 def user_register(request):
     if request.method == 'POST':
+        print(request.data)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()

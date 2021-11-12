@@ -1,13 +1,15 @@
 import axios from "axios";
-const Base_URL = 'http://127.0.0.1:8000/api/accounts/'
+const Base_URL = 'http://127.0.0.1:8000/api/v1/accounts/'
 
-const register = (firstname, lastname, email, password) => {
+const register = (firstname, lastname, email, password, terms) => {
+    console.log(terms)
     return axios.post(
         Base_URL + 'signup/', {
             firstname,
             lastname,
             email,
-            password
+            password,
+            terms
         }
     );
 ;

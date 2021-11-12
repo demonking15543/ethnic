@@ -1,117 +1,128 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
-import { setLoggedIn, setLogInError } from '../redux/actions/UserActions';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import api from '../api/loacalConfig';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import CSRFToken from './CSRFToken';
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
 
-const Login = ({ setisLogin }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState([]);
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 
+import { login } from "../redux/actions/auth";
 
-    const history = useHistory()
-
-    const dispatch = useDispatch()
-
-
-    const FetchToken = async (data) =>{
-        const response = await api.post("accounts/token/", data)
-        return response;
-        
-        
-
-
-    };
-
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = {
-            email,
-            password
-        }
-    
-        FetchToken(data)
-        .then(res => {
-            dispatch(setLoggedIn(res.data));
-            history.push('/');
-
-            // window.location.href ="/"
-
-
-            
-        })
-        .catch((err) => {
-            dispatch(setLogInError(err.response.data))
-            setErrors(err.response.data)
-            
-        })  
-        
-  
-    };
+const required = (value) => {
+  if (!value) {
     return (
-        <Row>
-            <Col className="offset-md-4" sm={12} md={4} >
-                <Card className="my-4">
-                    <Card.Header className="text-center">Sign In</Card.Header>
-                    <Card.Body>
-                        <Form onSubmit={handleSubmit}>
-                            <CSRFToken />
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email"
-                                    placeholder="Enter email"
-                                    name="email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    required />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    name="password"
-                                    value={password}
-                                    onChange={e => setPassword(e.target.value)}
-                                    required />
-                            </Form.Group>
-                            {errors && <span className="text-danger">{errors.detail}</span>}
-
-                            <div className="text-center">
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
-                            </div>
-                            
-                        </Form>
-
-                    </Card.Body>
-                </Card>
-
-            </Col>
-           
-
-
-        </Row>
-
-
+      <div className="alert alert-danger" role="alert">
+        This field is required!
+      </div>
     );
+  }
+};
 
+const Login = (props) => {
+  const form = useRef();
+  const checkBtn = useRef();
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-}
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { message } = useSelector(state => state.message);
 
+  const dispatch = useDispatch();
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    form.current.validateAll();
+
+    if (checkBtn.current.context._errors.length === 0) {
+      dispatch(login(username, password))
+        .then(() => {
+          props.history.push("/");
+          window.location.reload();
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  };
+
+  if (isLoggedIn) {
+    return <Redirect to="/profile" />;
+  }
+
+  return (
+    <div className="col-md-4 offset-md-4">
+      <div className="card">
+        <img
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="profile-img"
+          className="card-img-top"
+          style= {{ height:"200px" }}
+          
+        />
+
+        <Form onSubmit={handleLogin} ref={form}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <Input
+              type="text"
+              className="form-control"
+              name="username"
+              value={username}
+              onChange={onChangeUsername}
+              validations={[required]}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <Input
+              type="password"
+              className="form-control"
+              name="password"
+              value={password}
+              onChange={onChangePassword}
+              validations={[required]}
+            />
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-primary btn-block" disabled={loading}>
+              {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
+              <span>Login</span>
+            </button>
+          </div>
+
+          {message && (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                {message}
+              </div>
+            </div>
+          )}
+          <CheckButton style={{ display: "none" }} ref={checkBtn} />
+        </Form>
+      </div>
+    </div>
+  );
+};
 
 export default Login;
